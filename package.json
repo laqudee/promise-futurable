@@ -1,0 +1,22 @@
+{
+  "name": "promise-futurable",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/Futurable.ts",
+  "scripts": {
+    "dev": " ",
+    "build": "rollup -c",
+    "test": "vitest",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "prettier": "^3.1.1",
+    "rollup": "^4.9.1",
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.0"
+  }
+}
