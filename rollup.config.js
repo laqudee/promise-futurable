@@ -1,4 +1,4 @@
-import typescript from '@rollup/plugin-typescript';
+import typescript from '@rollup/plugin-typescript'
 import dts from 'rollup-plugin-dts'
 
 export default [
@@ -8,12 +8,12 @@ export default [
       {
         file: 'dist/index.es.js',
         format: 'es',
-        sourcemap: true,
+        sourcemap: true
       },
       {
         file: 'dist/index.cjs.js',
         format: 'cjs',
-        sourcemap: true,
+        sourcemap: true
       }
     ],
     plugins: [
@@ -23,8 +23,8 @@ export default [
     ]
   },
   {
-    input: "src/Futurable.ts",
-    output: [{ file: "dist/index.d.ts", format: "es" }],
+    input: 'src/Futurable.ts',
+    output: [{ file: 'dist/index.d.ts', format: 'es' }],
     plugins: [dts()]
   }
 ]

@@ -5,10 +5,12 @@ Implement an Owner Promise.
 Building Promises from scratch
 
 [refer to：JavaScript Promises by Building a Custom Implementation](https://codefrontend.com/promises/)
+
 [refer to: Custom Promise](https://github.com/laqudee/custom-promise)
+
 ## Usage
 
-````bash
+```bash
 # install
 npm install @laqudee/promise-futurable
 

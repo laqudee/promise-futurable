@@ -1,4 +1,4 @@
-const Futurable = require("../dist/index.cjs.js")
+const Futurable = require('../dist/index.cjs.js')
 
 new Futurable((resolve) => {
   setTimeout(() => {
