@@ -92,32 +92,37 @@ describe('Futurable<constructor>', () => {
         })
     }))
 
-  test('does not change state anymore after promise is rejected', () => {
-    new Futurable((resolve, reject) => {
-      reject('failure')
-      resolve('success')
-    })
-      .then(() => {
-        throw 'should not be called'
+  test('does not change state anymore after promise is rejected', () =>
+    new Promise<void>((done) => {
+      new Futurable((resolve, reject) => {
+        reject('failure')
+        resolve('success')
       })
-      .catch((err) => {
-        expect(err).toBe('failure')
-      })
-  })
+        .then(() => {
+          throw 'should not be called'
+        })
+        .catch((err) => {
+          expect(err).toBe('failure')
+          done()
+        })
+    }))
 })
 
 describe('Futurable chaining', () => {
-  test('resolves chained <then>', () => {
-    new Futurable<number>((resolve) => {
-      resolve(0)
-    })
-      .then((value) => value + 1)
-      .then((value) => value + 1)
-      .then((value) => value + 1)
-      .then((value) => {
-        expect(value).toBe(3)
+  test('resolves chained <then>', () =>
+    new Promise<void>((done) => {
+      new Futurable<number>((resolve) => {
+        resolve(0)
       })
-  })
+        .then((value) => value + 1)
+        .then((value) => value + 1)
+        .then((value) => value + 1)
+        .then((value) => {
+          // console.log('value: ', value);
+          expect(value).toBe(3)
+          done()
+        })
+    }))
 
   test('resolves <then> chain after <catch>', () => {
     new Futurable<number>(() => {
@@ -169,6 +174,8 @@ describe('Futurable chaining', () => {
         throw new Error('should not be called')
       })
       .catch((err) => {
+        // console.error('err: ', err);
+
         expect(err).toBe(error)
       })
   })
@@ -179,21 +186,24 @@ describe('Futurable chaining', () => {
     })
       .then()
       .then((value) => {
+        // console.log('value: ', value);
         expect(value).toBe('testing')
       })
   })
 
-  it('passes value through undefined <catch>', () => {
-    const error = new Error('Why u fail?')
+  it('passes value through undefined <catch>', () =>
+    new Promise<void>((done) => {
+      const error = new Error('Why u fail?')
 
-    new Futurable((_, reject) => {
-      reject(error)
-    })
-      .catch()
-      .catch((err) => {
-        expect(err).toBe(error)
+      new Futurable((_, reject) => {
+        reject(error)
       })
-  })
+        .catch()
+        .catch((err) => {
+          expect(err).toBe(error)
+          done()
+        })
+    }))
 })
 
 describe('Futurable <finally>', () => {
@@ -209,47 +219,56 @@ describe('Futurable <finally>', () => {
     })
   })
 
-  it('it preserves a resolved promise state', () => {
-    let finallyCalledTimes = 0
+  it('it preserves a resolved promise state', () =>
+    new Promise<void>((done) => {
+      let finallyCalledTimes = 0
 
-    new Futurable((resolve) => resolve('success'))
-      .finally(() => {
-        finallyCalledTimes += 1
-      })
-      .then((value) => {
-        expect(value).toBe('success')
-        expect(finallyCalledTimes).toBe(1)
-      })
-  })
+      new Futurable((resolve) => resolve('success'))
+        .finally(() => {
+          finallyCalledTimes += 1
+        })
+        .then((value) => {
+          expect(value).toBe('success')
+          expect(finallyCalledTimes).toBe(1)
+          done()
+        })
+    }))
 
-  test('it preserves a rejected promise state', () => {
-    let finallyCalledTimes = 0
+  test('it preserves a rejected promise state', () =>
+    new Promise<void>((done) => {
+      let finallyCalledTimes = 0
 
-    new Futurable((_, reject) => reject('fail'))
-      .finally(() => {
-        finallyCalledTimes += 1
-      })
-      .catch((reason) => {
-        expect(reason).toBe('fail')
-        expect(finallyCalledTimes).toBe(1)
-      })
-  })
+      new Futurable((_, reject) => reject('fail'))
+        .finally(() => {
+          finallyCalledTimes += 1
+        })
+        .catch((reason) => {
+          expect(reason).toBe('fail')
+          expect(finallyCalledTimes).toBe(1)
+          done()
+        })
+    }))
 })
 
 describe('Futurable is thenable', () => {
-  test('is resolves native Promise', () => {
-    new Futurable<number>((resolve) => resolve(1))
-      .then((value) => new Promise((resolve) => resolve(value + 1)))
-      .then((value) => {
-        expect(value).toBe(2)
-      })
-  })
+  test('is resolves native Promise', () =>
+    new Promise<void>((done) => {
+      new Futurable<number>((resolve) => resolve(1))
+        .then((value) => new Promise((resolve) => resolve(value + 1)))
+        .then((value) => {
+          // console.log('value: ', value);
+          expect(value).toBe(2)
+          done()
+        })
+    }))
 
-  test('is can be resolved by native Promise', () => {
-    new Promise<number>((resolve) => resolve(1))
-      .then((value) => new Futurable((resolve) => resolve(value + 1)))
-      .then((value) => {
-        expect(value).toBe(2)
-      })
-  })
+  test('is can be resolved by native Promise', () =>
+    new Promise<void>((done) => {
+      new Promise<number>((resolve) => resolve(1))
+        .then((value) => new Futurable((resolve) => resolve(value + 1)))
+        .then((value) => {
+          expect(value).toBe(2)
+          done()
+        })
+    }))
 })

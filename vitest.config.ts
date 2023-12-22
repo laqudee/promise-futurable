@@ -7,6 +7,9 @@ export default defineConfig({
     disabled: true
   },
   test: {
+    onConsoleLog(log: string, type: 'stdout' | 'stderr'): any | void {
+      return true
+    },
     testTimeout: 30000
   }
 })

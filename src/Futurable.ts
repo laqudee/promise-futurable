@@ -122,4 +122,24 @@ export default class Futurable<T> {
       }
     )
   }
+
+  static resolve<T>(value: T): Futurable<T> {
+    return new Futurable((resolve) => {
+      resolve(value)
+    })
+  }
+
+  static reject<T>(reason?: any): Futurable<T> {
+    return new Futurable((_, reject) => {
+      reject(reason)
+    })
+  }
+
+  static race(futures: Futurable<any>[]): Futurable<any> {
+    return new Futurable((resolve, reject) => {
+      futures.forEach((future) => {
+        Futurable.resolve(future).then(resolve, reject)
+      })
+    })
+  }
 }

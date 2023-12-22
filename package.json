@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/Futurable.ts",
   "scripts": {
-    "dev": " ",
+    "dev": "tsx --no-warnings src/examples/useFuturable.ts",
     "build": "rollup -c",
     "test": "vitest",
     "format": "prettier --write ."
@@ -17,6 +17,7 @@
     "esm": "^3.2.25",
     "prettier": "^3.1.1",
     "rollup": "^4.9.1",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "vitest": "^1.1.0"
   },
