@@ -3,18 +3,16 @@ import Futurable from '../src/Futurable'
 /**
  * @description Use Futurable.resolve API
  */
-Futurable.resolve(5)
-  .then((val) => {
-    console.log('resolve-val: ', val)
-  })
+Futurable.resolve(5).then((val) => {
+  console.log('resolve-val: ', val)
+})
 
 /**
  * @description Use Futurable.reject API
  */
-Futurable.reject(new Error('Whoops!'))
-  .catch((err) => {
-    console.error('reject-err: ', err)
-  })
+Futurable.reject(new Error('Whoops!')).catch((err) => {
+  console.error('reject-err: ', err)
+})
 
 /**
  * @description Use Futurable.race API
