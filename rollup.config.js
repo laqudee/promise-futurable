@@ -6,12 +6,12 @@ export default [
     input: 'src/Futurable.ts',
     output: [
       {
-        file: 'dist/index.mjs',
+        file: 'dist/index.es.js',
         format: 'es',
         sourcemap: true,
       },
       {
-        file: 'dist/index.js',
+        file: 'dist/index.cjs.js',
         format: 'cjs',
         sourcemap: true,
       }

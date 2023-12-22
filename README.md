@@ -33,4 +33,20 @@ pnpm test
 
 # format -- use prettier
 pnpm format
+
+# dev:cjs -- example
+# "type": "module",  // if add type: module; dev:cjs can't work
+pnpm dev:cjs
+
+#dev esm -- example
+pnpm dev:esm
+```
+
+```bash
+# link fro global
+pnpm link --global
+
+# when use custom-promise
+pnpm link --global @laqudee/promise-futurable
+
 ```

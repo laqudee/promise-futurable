@@ -3,16 +3,17 @@
   "version": "0.0.1",
   "description": "Building Promises from scratch",
   "type": "module",
-  "main": "src/Futurable.ts",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
   "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
+    "require": "./dist/index.cjs.js",
+    "import": "./dist/index.es.js"
   },
   "scripts": {
     "dev": "tsx --no-warnings examples/useFuturable.ts",
     "dev:statics": "tsx --no-warnings examples/useFuturableStaticMethods.ts",
-    "dev:esm": "node -r esm examples/useFuturable.js",
+    "dev:esm": "node examples/useFuturable.es.mjs",
+    "dev:cjs": "node examples/useFuturable.cjs.js",
     "build": "rollup -c",
     "test": "vitest",
     "format": "prettier --write ."
