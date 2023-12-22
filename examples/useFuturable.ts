@@ -1,4 +1,4 @@
-import Futurable from '../Futurable'
+import Futurable from '../src/Futurable'
 
 Futurable.race([
   new Futurable((resolve, reject) => setTimeout(() => resolve(100), 1000)),

@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/Futurable.ts",
   "scripts": {
-    "dev": "tsx --no-warnings src/examples/useFuturable.ts",
+    "dev": "tsx --no-warnings examples/useFuturable.ts",
     "build": "rollup -c",
     "test": "vitest",
     "format": "prettier --write ."
