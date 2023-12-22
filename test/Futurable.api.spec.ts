@@ -42,7 +42,7 @@ describe('Futurable all/any/race/allSettle api test', () => {
         new Futurable((resolve, reject) => setTimeout(() => reject(new Error('Whoops!')), 2000)),
         new Futurable((resolve, reject) => setTimeout(() => resolve(300), 3000))
       ]).then((val) => {
-        console.log('race-val: ', val);
+        console.log('race-val: ', val)
         expect(val).toBe('first success')
         done()
       })

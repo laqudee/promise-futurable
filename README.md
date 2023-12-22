@@ -4,7 +4,6 @@ Implement an Owner Promise.
 
 ## Usage
 
-
 ## Development
 
 ```bash
