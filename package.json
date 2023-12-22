@@ -6,6 +6,7 @@
   "main": "src/Futurable.ts",
   "scripts": {
     "dev": "tsx --no-warnings examples/useFuturable.ts",
+    "dev:statics": "tsx --no-warnings examples/useFuturableStaticMethods.ts",
     "build": "rollup -c",
     "test": "vitest",
     "format": "prettier --write ."

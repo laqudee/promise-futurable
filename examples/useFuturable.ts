@@ -1,67 +1,70 @@
-import Futurable from '../src/Futurable'
+import Futurable from "../src/Futurable"
 
 /**
- * @description Use Futurable.race API
+ * @description is always asynchronous
  */
-Futurable.race([
-  new Futurable((resolve, reject) => setTimeout(() => resolve(100), 1000)),
-  new Futurable((resolve, reject) => setTimeout(() => reject(new Error('Whoops!')), 2000)),
-  new Futurable((resolve, reject) => setTimeout(() => resolve(300), 3000)),
-  2
-])
-  .then((val) => console.log('val: ', val))
-  .catch((err) => {
-    console.error('race-err: ', err)
-  })
-
-/**
- * @description Use Futurable.all API
- */
-Futurable.all([
-  new Futurable((resolve) => setTimeout(() => resolve(1), 3000)), // 1
-  new Futurable((resolve) => setTimeout(() => resolve(2), 2000)), // 2
-  new Futurable((resolve) => setTimeout(() => resolve(3), 1000)), // 3
-  4
-  // Futurable.reject(new Error("rejected"))
-])
-  .then((values) => {
-    console.log('values: ', values) // [1, 2, 3, 4]
-  })
-  .catch((err) => {
-    console.error('err: ', err)
-  })
-
-/**
- * @description Use Futurable.any API
- *
- */
-Futurable.any([
-  new Futurable((resolve, reject) => setTimeout(() => reject(new Error('Whoops!')), 1000)),
-  new Futurable((resolve, reject) => setTimeout(() => resolve(1), 2000)),
-  new Futurable((resolve, reject) => setTimeout(() => resolve(3), 3000))
-]).then((val) => {
-  console.log('any-success-val: ', val)
-}) // 1
-
-Futurable.any([
-  new Futurable((resolve, reject) => setTimeout(() => reject(new Error('Ouch!')), 1000)),
-  new Futurable((resolve, reject) => setTimeout(() => reject(new Error('Error!')), 2000))
-]).catch((error) => {
-  // console.log('any-all reject-error: ', error);
-  console.log('name:', error.constructor.name) // AggregateError
-  console.log(error.errors[0]) // Error: Ouch!
-  console.log(error.errors[1]) // Error: Error!
+new Futurable<string>((resolve) => {
+  setTimeout(() => {
+    resolve('testing')
+  }, 20)
+}).then((val) => {
+  console.log('val: ', val)
 })
 
 /**
- * @description Use Futurable.allSettled API
+ * @description resolves with the returned value
  */
-Futurable.allSettled([
-  new Futurable((resolve) => setTimeout(() => resolve(1), 3000)), // 1
-  new Futurable((resolve) => setTimeout(() => resolve(2), 2000)), // 2
-  new Futurable((resolve) => setTimeout(() => resolve(3), 1000)), // 3
-  4,
-  Futurable.reject('rejected')
-]).then((values) => {
-  console.log('values: ', values) // [1, 2, 3, 4, "reject"]
+let value = 'no'
+new Futurable<string>((resolve) => {
+  value = 'yes;'
+  resolve(value)
 })
+console.log('value: ', value);
+
+/**
+ * @description resolves a Futurable before calling <then>
+ */
+new Futurable<string>((resolve) => {
+  resolve(new Futurable((resolve) => resolve('testing')))
+}).then((val) => {
+  console.log('val: ', val)
+})
+
+const error = new Error('why u fail?')
+new Futurable<Error>((_, reject) => {
+  return reject(error)
+}).catch((err: Error) => {
+  console.log('err: ', err);
+})
+
+/**
+ * @description resolves chained <then>
+ */
+new Futurable<number>((resolve) => {
+  resolve(0)
+})
+  .then((value) => value + 1)
+  .then((value) => value + 1)
+  .then((value) => value + 1)
+  .then((value) => {
+    console.log('value: ', value);
+  })
+
+/**
+ * @description is resolves native Promise
+ */
+new Futurable<number>((resolve) => resolve(1))
+  .then((value) => new Promise((resolve) => resolve(value + 1)))
+  .then((value) => {
+    console.log('value: ', value);
+  })
+
+
+/**
+ * @description is can be resolved by native Promise
+ */
+new Promise<number>((resolve) => resolve(1))
+  .then((value) => new Futurable((resolve) => resolve(value + 1)))
+  .then((value) => {
+    console.log('promise-value: ', value);
+  })
