@@ -1,1 +1,1 @@
-declare module 'es-aggregate-error'
+declare module 'aggregate-error'

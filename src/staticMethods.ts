@@ -1,4 +1,4 @@
-import AggregateError from 'es-aggregate-error'
+import AggregateError from 'aggregate-error'
 import Futurable from './Futurable'
 
 export function resolve<T>(value: T): Futurable<T> {
